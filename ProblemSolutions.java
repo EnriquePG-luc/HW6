@@ -1,7 +1,7 @@
 
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   ENRIQUE PRADO GUTIERREZ / 001
  *
  *   This java file contains the problem solutions for the methods lastBoulder,
  *   showDuplicates, and pair methods. You should utilize the Java Collection
@@ -65,10 +65,22 @@ public class ProblemSolutions {
 
   public static int lastBoulder(int[] boulders) {
 
-      //
-      // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME / SECTION # ABOVE
-      //
-      return -1;
+      PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+
+      for (int boulder : boulders){
+        pq.add(boulder);
+      }
+
+      while (pq.size() > 1) {
+        int first = pq.poll();
+        int second = pq.poll();
+
+        if (first != second){
+            pq.add(first - second);
+        }
+
+      }
+      return pq.isEmpty() ? 0 : pq.peek();
   }
 
 
@@ -91,10 +103,14 @@ public class ProblemSolutions {
 
     public static ArrayList<String> showDuplicates(ArrayList<String> input) {
 
-        //
-        //  YOUR CODE GOES HERE
-        //
-        return new ArrayList<>();  // Make sure result is sorted in ascending order
+        HashSet<String> seen = new HashSet<>();
+        TreeSet<String> duplicates = new TreeSet<>();
+        for (String s : input) {
+            if (!seen.add(s)) {
+                duplicates.add(s);
+            }
+        }
+        return new ArrayList<>(duplicates);
 
     }
 
@@ -131,9 +147,20 @@ public class ProblemSolutions {
 
     public static ArrayList<String> pair(int[] input, int k) {
 
-        //
-        //  YOUR CODE GOES HERE
-        //
-        return new ArrayList<>();  // Make sure returned lists is sorted as indicated above
+        HashSet<Integer> seen = new HashSet<>();
+        TreeSet<String> result = new TreeSet<>();
+
+        for (int num : input){
+            int complement = k - num;
+            if(seen.contains(complement)){
+                int a = Math.min(num, complement);
+                int b = Math.max(num, complement);
+                result.add("(" + a + ", " + b + ")");
+            }
+            seen.add(num);
+        }
+
+
+        return new ArrayList<>(result);  // Make sure returned lists is sorted as indicated above
     }
 }
